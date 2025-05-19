@@ -9,18 +9,14 @@ from PIL import Image
 from transformers import CLIPProcessor, CLIPModel
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from redis import Redis
 from flask_cors import CORS  # Import Flask-CORS
 
 app = Flask(__name__)
 # Allow only localhost:3000 and your backend Render URL (update with your real URL)
 CORS(app, origins=["http://localhost:3000", "https://your-render-url.onrender.com"])
 
-# Connect to Redis (Replace with Render-hosted Redis URL if needed)
-redis_client = Redis(host="localhost", port=6379)
-
-# Configure Flask-Limiter to use Redis
-limiter = Limiter(get_remote_address, app=app, storage_uri="redis://localhost:6379", default_limits=["5 per minute"])
+# Set up rate limiting (5 requests per minute per IP)
+limiter = Limiter(get_remote_address, app=app, default_limits=["5 per minute"])
 
 # Logging for monitoring traffic
 logging.basicConfig(level=logging.INFO)
@@ -31,7 +27,7 @@ def home():
     return "Alive", 200
 
 # Load CLIP model
-model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").half()
+model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
 processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
 
 # Expanded category list
