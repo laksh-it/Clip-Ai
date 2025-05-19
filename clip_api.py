@@ -100,7 +100,7 @@ def get_best_categories(image_path):
 
 # Updated Keep-Alive Function (no while loop; recursive timer)
 def keep_alive():
-    PING_URL = "https://your-render-url.onrender.com"  # Replace with your actual Render URL
+    PING_URL = "https://clip-ai.onrender.com"  # Replace with your actual Render URL
     try:
         response = requests.get(PING_URL)
         print(f"✅ Pinged Render! Status Code: {response.status_code}")
