@@ -1,0 +1,8 @@
+flask
+flask-limiter
+flask-cors
+torch
+transformers
+pillow
+requests
+clip
